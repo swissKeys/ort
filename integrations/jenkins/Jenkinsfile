@@ -316,6 +316,7 @@ pipeline {
 
             steps {
                 withCredentials(ortConfigVcsCredentials) {
+                    sh 'ls $HOME'
                     sh '''
                     ORT_OPTIONS="$LOG_LEVEL"
 
@@ -330,11 +331,12 @@ pipeline {
                     ort config --show-active
 
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
+
                     if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
-                        rm -fr $ORT_DATA_DIR/config
+                        ls $ORT_DATA_DIR/config
                         cp $HOME/config.yml $ORT_DATA_DIR/config/config.yml
 
                         if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
