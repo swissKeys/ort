@@ -311,12 +311,12 @@ pipeline {
 
             environment {
                 HOME = "${env.WORKSPACE}@tmp"
+                CONFIG_DIR = "${env.WORKSPACE}"
                 ORT_DATA_DIR = "${env.HOME}/.ort"
             }
 
             steps {
                 withCredentials(ortConfigVcsCredentials) {
-                    sh 'ls $HOME'
                     sh '''
                     ORT_OPTIONS="$LOG_LEVEL"
 
