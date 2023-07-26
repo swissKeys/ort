@@ -336,8 +336,7 @@ pipeline {
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
-                        ls $ORT_DATA_DIR/config
-                        cp $HOME/config.yml $ORT_DATA_DIR/config/config.yml
+                        cp $ORT_DATA_DIR/config.yml $ORT_DATA_DIR/config/config.yml
 
                         if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                             echo "Config file copied successfully."
