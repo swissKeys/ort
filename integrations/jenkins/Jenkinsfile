@@ -335,7 +335,7 @@ pipeline {
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
-                        cp /var/lib/jenkins/workspace/ort/config.yml $ORT_DATA_DIR/config/config.yml
+                        ls /var/lib/jenkins/workspace/ort
 
                         if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                             echo "Config file copied successfully."
