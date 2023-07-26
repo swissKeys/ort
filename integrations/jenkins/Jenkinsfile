@@ -312,7 +312,6 @@ pipeline {
             environment {
                 HOME = "${env.WORKSPACE}@tmp"
                 CONFIG_DIR = "${env.WORKSPACE}"
-                ORT_DATA_DIR = "${env.HOME}/.ort"
             }
 
             steps {
@@ -336,7 +335,7 @@ pipeline {
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
-                        cp $ORT_DATA_DIR/config.yml $ORT_DATA_DIR/config/config.yml
+                        cp /var/lib/jenkins/workspace/ort/config.yml $ORT_DATA_DIR/config/config.yml
 
                         if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                             echo "Config file copied successfully."
