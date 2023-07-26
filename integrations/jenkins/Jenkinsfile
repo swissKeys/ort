@@ -327,15 +327,17 @@ pipeline {
                         VCS_REVISION_OPTION="--vcs-revision $ORT_CONFIG_VCS_REVISION"
                     fi
 
-                    echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
+                    ort config --show-active
 
-                    rm -fr $ORT_DATA_DIR/config
-                    /opt/ort/bin/ort $ORT_OPTIONS download --project-url $ORT_CONFIG_VCS_URL $VCS_REVISION_OPTION -o $ORT_DATA_DIR/config
+                    echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
                     if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
+                        rm -fr $ORT_DATA_DIR/config
+                        /opt/ort/bin/ort $ORT_OPTIONS download --project-url $ORT_CONFIG_VCS_URL $VCS_REVISION_OPTION -o $ORT_DATA_DIR/config
+
                         cat >$ORT_DATA_DIR/config/config.yml <<EOF
                     ort:
                       packageCurationProviders:
@@ -349,6 +351,8 @@ pipeline {
                     fi
 
                     rm -f $HOME/.netrc
+
+                    ort config --show-active
                     '''.stripIndent().trim()
                 }
             }
