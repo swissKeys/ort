@@ -330,7 +330,8 @@ pipeline {
                     ort config --show-active
 
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-
+                    rm -fr $ORT_DATA_DIR/config
+                    cp ${env.WORKSPACE}/config.yml $ORT_DATA_DIR/config/config.yml
                     if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else

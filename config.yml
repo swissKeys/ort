@@ -1,5 +1,5 @@
 ort:
-  addAuthorsToCopyrights: false
+  addAuthorsToCopyrights: true
   allowedProcessEnvironmentVariableNames:
   - "CARGO_HTTP_USER_AGENT"
   - "COMPOSER_ALLOW_SUPERUSER"
