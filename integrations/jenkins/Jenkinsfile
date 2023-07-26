@@ -330,25 +330,19 @@ pipeline {
                     ort config --show-active
 
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-                    rm -fr $ORT_DATA_DIR/config
-                    cp ${env.WORKSPACE}/config.yml $ORT_DATA_DIR/config/config.yml
                     if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
                         rm -fr $ORT_DATA_DIR/config
-                        /opt/ort/bin/ort $ORT_OPTIONS download --project-url $ORT_CONFIG_VCS_URL $VCS_REVISION_OPTION -o $ORT_DATA_DIR/config
+                        cp $HOME/config.yml $ORT_DATA_DIR/config/config.yml
 
-                        cat >$ORT_DATA_DIR/config/config.yml <<EOF
-                    ort:
-                      packageCurationProviders:
-                        - name: DefaultFile
-                        - name: DefaultDir
-                        - name: OrtConfig
-                          enabled: ${USE_ORT_CONFIG_CURATIONS}
-                        - name: ClearlyDefined
-                          enabled: ${USE_CLEARLY_DEFINED_CURATIONS}
-                    EOF
+                        if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
+                            echo "Config file copied successfully."
+                        else
+                            echo "Failed to copy the config file. Aborting the build."
+                            exit 1
+                        fi
                     fi
 
                     rm -f $HOME/.netrc
