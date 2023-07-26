@@ -327,31 +327,31 @@ pipeline {
                         VCS_REVISION_OPTION="--vcs-revision $ORT_CONFIG_VCS_REVISION"
                     fi
 
-                    ort config --show-active
-
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
+
+                    rm -fr $ORT_DATA_DIR/config
+                    /opt/ort/bin/ort $ORT_OPTIONS download --project-url $ORT_CONFIG_VCS_URL $VCS_REVISION_OPTION -o $ORT_DATA_DIR/config
 
                     if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
                         echo "Not creating '$ORT_DATA_DIR/config/config.yml' as it already exists."
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
-                        ls /var/lib/jenkins/workspace/ort
-                        ls $ORT_DATA_DIR
-                        sudo mkdir $ORT_DATA_DIR/config
-                        cp /var/lib/jenkins/workspace/ort/config.yml $ORT_DATA_DIR/config/config.yml
-
-                        if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
-                            echo "Config file copied successfully."
-                        else
-                            echo "Failed to copy the config file. Aborting the build."
-                            exit 1
-                        fi
+                        cat >$ORT_DATA_DIR/config/config.yml <<EOF
+                    
+                    ort:
+                      packageCurationProviders:
+                        - name: DefaultFile
+                        - name: DefaultDir
+                        - name: OrtConfig
+                          enabled: ${USE_ORT_CONFIG_CURATIONS}
+                        - name: ClearlyDefined
+                          enabled: ${USE_CLEARLY_DEFINED_CURATIONS}
+                    EOF
                     fi
 
                     rm -f $HOME/.netrc
-
-                    ort config --show-active
                     '''.stripIndent().trim()
+
                 }
             }
         }
