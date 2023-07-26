@@ -337,6 +337,7 @@ pipeline {
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
                         ls /var/lib/jenkins/workspace/ort
                         ls $ORT_DATA_DIR
+                        sudo mkdir $ORT_DATA_DIR/config
                         cp /var/lib/jenkins/workspace/ort/config.yml $ORT_DATA_DIR/config/config.yml
 
                         if [ -f "$ORT_DATA_DIR/config/config.yml" ]; then
