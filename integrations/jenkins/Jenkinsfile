@@ -384,7 +384,6 @@ pipeline {
                     rm -f $HOME/.netrc
                     /opt/ort/bin/ort config --show-active
                     '''.stripIndent().trim()
-
                 }
             }
         }
@@ -521,6 +520,8 @@ pipeline {
                             SCANNERS_OPTION="--scanners $PACKAGE_SCANNER"
                         fi
 
+                        /opt/ort/bin/ort $ORT_OPTIONS scan --help
+
                         PACKAGE_TYPES_OPTION=${PACKAGE_TYPES[@]}
                         if [ -n "$PACKAGE_TYPES_OPTION" ]; then
                             PACKAGE_TYPES_OPTION=${PACKAGE_TYPES_OPTION// /,}
@@ -536,6 +537,7 @@ pipeline {
                                 $SCANNERS_OPTION
 
                             rm -f $HOME/.netrc
+
                         fi
                         '''.stripIndent().trim()
 
