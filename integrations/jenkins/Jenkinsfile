@@ -340,7 +340,31 @@ pipeline {
                         cat >$ORT_DATA_DIR/config/config.yml <<EOF
                     
                     ort:
-                      addAuthorsToCopyrights: true
+                      scanner:
+                        options: 
+                            FossId:
+                                serverUrl: 'https://fossid.example.com/instance/'
+                                user: user
+                                apiKey: XYZ
+
+                                namingProjectPattern: '$Var1_$Var2'
+                                namingScanPattern: '$Var1_#projectBaseCode_$Var3'
+                                namingVariableVar1: myOrg
+                                namingVariableVar2: myTeam
+                                namingVariableVar3: myUnit
+
+                                waitForResult: false
+
+                                keepFailedScans: false
+                                deltaScans: true
+                                deltaScanLimit: 10
+
+                                detectLicenseDeclarations: true
+                                detectCopyrightStatements: true
+
+                                timeout: 60
+
+                                urlMappingExample: "https://my-repo.example.org(?<repoPath>.*) -> ssh://my-mapped-repo.example.org${repoPath}"
                       packageCurationProviders:
                         - name: DefaultFile
                         - name: DefaultDir
@@ -348,6 +372,12 @@ pipeline {
                           enabled: ${USE_ORT_CONFIG_CURATIONS}
                         - name: ClearlyDefined
                           enabled: ${USE_CLEARLY_DEFINED_CURATIONS}
+                      reporter:
+                        options:
+                          FossId:
+                            serverUrl: 'https://fossid.example.com/instance/'
+                            user: user
+                            apiKey: XYZ
                     EOF
                     fi
 
