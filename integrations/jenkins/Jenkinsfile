@@ -153,13 +153,13 @@ pipeline {
         choice(
             name: 'PROJECT_SCANNER',
             description: 'The scanner to use for project source code.',
-            choices: ['ScanCode', 'Askalono', 'BoyterLc', 'Licensee', 'ScanOSS', '<NONE>']
+            choices: ['ScanCode', 'Askalono', 'BoyterLc', 'Licensee', 'ScanOSS', 'FossId', '<NONE>']
         )
 
         choice(
             name: 'PACKAGE_SCANNER',
             description: 'The scanner to use for package source code.',
-            choices: ['ScanCode', 'Askalono', 'BoyterLc', 'Licensee', 'ScanOSS', '<NONE>']
+            choices: ['ScanCode', 'Askalono', 'BoyterLc', 'Licensee', 'ScanOSS', 'FossId', '<NONE>']
         )
 
         booleanParam(
