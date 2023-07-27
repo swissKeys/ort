@@ -340,6 +340,7 @@ pipeline {
                         cat >$ORT_DATA_DIR/config/config.yml <<EOF
                     
                     ort:
+                      addAuthorsToCopyrights: true
                       packageCurationProviders:
                         - name: DefaultFile
                         - name: DefaultDir
@@ -351,6 +352,7 @@ pipeline {
                     fi
 
                     rm -f $HOME/.netrc
+                    /opt/ort/bin/ort config --show-active
                     '''.stripIndent().trim()
 
                 }
