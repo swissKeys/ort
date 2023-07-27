@@ -285,7 +285,7 @@ pipeline {
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
                     rm -fr "$PROJECT_DIR"
-                    /opt/ort/bin/ort $ORT_OPTIONS download --project-url $PROJECT_VCS_URL $VCS_REVISION_OPTION -o "$PROJECT_DIR/source"
+                    /opt/ort/bin/ort $ORT_OPTIONS download --project-url $PROJECT_VCS_URL $VCS_REVISION_OPTION --output-dir "$PROJECT_DIR/source"
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
