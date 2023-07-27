@@ -337,6 +337,7 @@ pipeline {
                     else
                         echo "Creating '$ORT_DATA_DIR/config/config.yml' template for job parameters."
                         cat >$ORT_DATA_DIR/config/config.yml <<EOF
+                    
                     ort:
                       packageCurationProviders:
                         - name: DefaultFile
@@ -350,6 +351,7 @@ pipeline {
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
+
                 }
             }
         }
