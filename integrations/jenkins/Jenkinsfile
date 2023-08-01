@@ -340,6 +340,8 @@ pipeline {
                         cat >$ORT_DATA_DIR/config/config.yml <<EOF
                     
                     ort:
+                      analyzer:
+                        allowDynamicVersions: true
                       scanner:
                         options: 
                             FossId:
