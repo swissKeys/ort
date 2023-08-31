@@ -345,9 +345,9 @@ pipeline {
                       scanner:
                         options: 
                             FossId:
-                                serverUrl: 'https://fossid.example.com/blablablabla/'
-                                user: user
-                                apiKey: XYZ
+                                serverUrl: 'http://192.168.126.136/'
+                                user: fossid
+                                apiKey: dq3X0iqxe4bIoxblFWw63W778piTqt6PM41RMYV6oY
 
                                 namingProjectPattern: '$Var1_$Var2'
                                 namingScanPattern: '$Var1_#projectBaseCode_$Var3'
