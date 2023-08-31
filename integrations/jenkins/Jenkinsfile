@@ -548,6 +548,7 @@ pipeline {
                         switch (status) {
                             case 0:
                                 if (!fileExists('out/results/scanner/scan-result.yml')) {
+                                    print("No scanner issues found.")
                                     sh '''
                                     mkdir -p out/results/scanner
                                     cp out/results/current-result.yml out/results/scanner/scan-result.yml
@@ -558,10 +559,12 @@ pipeline {
                                 break
 
                             case { it >= ORT_FAILURE_STATUS_CODE }:
+                                print("unstable.")
                                 unstable("Scanner issues found (exit code $status).")
                                 break
 
                             default:
+                                print("error.")
                                 error("Error executing the scanner (exit code $status).")
                                 break
                         }
