@@ -532,13 +532,17 @@ pipeline {
                             PACKAGE_TYPES_OPTION="--package-types $PACKAGE_TYPES_OPTION"
 
                             echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-
-                            /opt/ort/bin/ort $ORT_OPTIONS scan \
-                                -i out/results/current-result.yml \
-                                -o out/results/scanner \
-                                $PACKAGE_TYPES_OPTION \
-                                $PROJECT_SCANNERS_OPTION \
-                                $SCANNERS_OPTION
+                            try {
+                                /opt/ort/bin/ort $ORT_OPTIONS scan \
+                                    -i out/results/current-result.yml \
+                                    -o out/results/scanner \
+                                    $PACKAGE_TYPES_OPTION \
+                                    $PROJECT_SCANNERS_OPTION \
+                                    $SCANNERS_OPTION
+                            } catch (Exception e) {
+                                echo "Error executing the scanner: $e"
+                                exit 1
+                            }
 
                             rm -f $HOME/.netrc
 
