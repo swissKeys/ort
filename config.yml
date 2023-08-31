@@ -1,0 +1,140 @@
+ort:
+  addAuthorsToCopyrights: false
+  allowedProcessEnvironmentVariableNames:
+  - "CARGO_HTTP_USER_AGENT"
+  - "COMPOSER_ALLOW_SUPERUSER"
+  - "CONAN_LOGIN_ENCRYPTION_KEY"
+  - "CONAN_LOGIN_USERNAME"
+  - "CONAN_PASSWORD"
+  - "CONAN_USERNAME"
+  - "CONAN_USER_HOME"
+  - "CONAN_USER_HOME_SHORT"
+  - "DOTNET_CLI_CONTEXT_ANSI_PASS_THRU"
+  - "GIT_ASKPASS"
+  - "GIT_HTTP_USER_AGENT"
+  - "GRADLE_USER_HOME"
+  - "HACKAGE_USERNAME"
+  - "HACKAGE_PASSWORD"
+  - "HACKAGE_KEY"
+  - "PWD"
+  - "USER"
+  - "USERPROFILE"
+  deniedProcessEnvironmentVariablesSubstrings:
+  - "key"
+  - "pass"
+  - "pwd"
+  - "token"
+  - "user"
+  enableRepositoryPackageConfigurations: false
+  enableRepositoryPackageCurations: false
+  forceOverwrite: true
+  licenseFilePatterns:
+    licenseFilenames:
+    - "copying*"
+    - "copyright"
+    - "licence*"
+    - "license*"
+    - "*.licence"
+    - "*.license"
+    - "unlicence"
+    - "unlicense"
+    patentFilenames:
+    - "patents"
+    rootLicenseFilenames:
+    - "readme*"
+  packageConfigurationProviders:
+  - type: "DefaultDir"
+    id: "DefaultDir"
+    enabled: true
+    config: {}
+  packageCurationProviders:
+  - type: "DefaultDir"
+    id: "DefaultDir"
+    enabled: true
+    config: {}
+  - type: "DefaultFile"
+    id: "DefaultFile"
+    enabled: true
+    config: {}
+  severeIssueThreshold: "WARNING"
+  severeRuleViolationThreshold: "WARNING"
+  analyzer:
+    allowDynamicVersions: false
+    skipExcluded: false
+  advisor: {}
+  downloader:
+    allowMovingRevisions: false
+    includedLicenseCategories: []
+    sourceCodeOrigins:
+    - "VCS"
+    - "ARTIFACT"
+  scanner:
+    skipConcluded: false
+    createMissingArchives: false
+    detectedLicenseMapping:
+      LicenseRef-scancode-agpl-generic-additional-terms: "NOASSERTION"
+      LicenseRef-scancode-generic-cla: "NOASSERTION"
+      LicenseRef-scancode-generic-exception: "NOASSERTION"
+      LicenseRef-scancode-generic-export-compliance: "NOASSERTION"
+      LicenseRef-scancode-generic-tos: "NOASSERTION"
+      LicenseRef-scancode-generic-trademark: "NOASSERTION"
+      LicenseRef-scancode-gpl-generic-additional-terms: "NOASSERTION"
+      LicenseRef-scancode-patent-disclaimer: "NOASSERTION"
+      LicenseRef-scancode-warranty-disclaimer: "NOASSERTION"
+      LicenseRef-scancode-other-copyleft: "NOASSERTION"
+      LicenseRef-scancode-other-permissive: "NOASSERTION"
+      LicenseRef-scancode-free-unknown: "NOASSERTION"
+      LicenseRef-scancode-unknown: "NOASSERTION"
+      LicenseRef-scancode-unknown-license-reference: "NOASSERTION"
+      LicenseRef-scancode-unknown-spdx: "NOASSERTION"
+    ignorePatterns:
+    - "**/*.ort.yml"
+    - "**/*.spdx.yml"
+    - "**/*.spdx.yaml"
+    - "**/*.spdx.json"
+    - "**/META-INF/DEPENDENCIES"
+    - "**/META-INF/DEPENDENCIES.txt"
+    - "**/META-INF/NOTICE"
+    - "**/META-INF/NOTICE.txt"
+    options:
+      # A map of maps from scanner class names to scanner-specific key-value pairs.
+      ScanCode:
+        # Command line options that affect the ScanCode output. If changed, stored scan results that were created with
+        # different options are not reused.
+        commandLine: '--copyright --license --info --strip-root --timeout 300'
+
+        # Command line options that do not affect the ScanCode output.
+        commandLineNonConfig: '--processes 4'
+
+        # Criteria for matching stored scan results. These can be configured for any scanner that uses semantic
+        # versioning. Note that the 'maxVersion' is exclusive and not part of the range of accepted versions.
+        minVersion: '3.2.1-rc2'
+        maxVersion: '32.0.0'
+
+      FossId:
+        serverUrl: 'http://192.168.126.136/'
+        user: fossid
+        apiKey: dq3X0iqxe4bIoxblFWw63W778piTqt6PM41RMYV6oY
+
+        namingProjectPattern: '$Var1_$Var2'
+        namingScanPattern: '$Var1_#projectBaseCode_$Var3'
+        namingVariableVar1: myOrg
+        namingVariableVar2: myTeam
+        namingVariableVar3: myUnit
+
+        waitForResult: false
+
+        keepFailedScans: false
+        deltaScans: true
+        deltaScanLimit: 10
+
+        detectLicenseDeclarations: true
+        detectCopyrightStatements: true
+
+        timeout: 60
+
+        urlMappingExample: "https://my-repo.example.org(?<repoPath>.*) -> ssh://my-mapped-repo.example.org${repoPath}"
+  reporter: {}
+  notifier:
+    mail: null
+    jira: null

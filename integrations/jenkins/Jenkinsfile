@@ -344,10 +344,10 @@ pipeline {
                         allowDynamicVersions: true
                       scanner:
                         options: 
-                            FossId:
-                                serverUrl: 'https://fossid.example.com/blablabla/'
-                                user: user
-                                apiKey: XYZ
+                            FossId.
+                                serverUrl: 'http://192.168.126.136/'
+                                user: fossid
+                                apiKey: dq3X0iqxe4bIoxblFWw63W778piTqt6PM41RMYV6oY
 
                                 namingProjectPattern: '$Var1_$Var2'
                                 namingScanPattern: '$Var1_#projectBaseCode_$Var3'
