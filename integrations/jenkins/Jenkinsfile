@@ -345,7 +345,7 @@ pipeline {
                       scanner:
                         options: 
                             FossId:
-                                serverUrl: 'https://fossid.example.com/blablabla/'
+                                serverUrl: 'https://fossid.example.com/blablablabla/'
                                 user: user
                                 apiKey: XYZ
 
