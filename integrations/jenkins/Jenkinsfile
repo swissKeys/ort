@@ -168,6 +168,19 @@ pipeline {
             defaultValue: true
         )
 
+        string(
+            name: 'FossId_PROJECT_NAME',
+            description: 'Shows in FossId workbench',
+            defaultValue: '$Var1_$Var2'
+        )
+
+
+        string(
+            name: 'FossId_PROJECT_CODE',
+            description: 'Shows in FossId workbench',
+            defaultValue: '$Var1_#projectBaseCode_$Var3'
+        )
+
         /*
          * ORT advisor tool parameters.
          */
@@ -348,6 +361,9 @@ pipeline {
                                 serverUrl: 'http://192.168.126.136/'
                                 user: fossid
                                 apiKey: dq3X0iqxe4bIoxblFWw63W778piTqt6PM41RMYV6oY
+
+                                namingProjectPattern: '$FossId_PROJECT_NAME'
+                                namingScanPattern: '$FossId_PROJECT_CODE'
 
                                 waitForResult: false
 
