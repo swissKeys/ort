@@ -532,7 +532,9 @@ pipeline {
                             PACKAGE_TYPES_OPTION="--package-types $PACKAGE_TYPES_OPTION"
 
                             echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-                            
+
+                            /opt/ort/bin/ort $ORT_OPTIONS config --show-active
+
                             /opt/ort/bin/ort $ORT_OPTIONS scan \
                                 -i out/results/current-result.yml \
                                 -o out/results/scanner \
