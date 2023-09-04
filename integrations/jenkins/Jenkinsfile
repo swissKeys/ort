@@ -498,84 +498,86 @@ pipeline {
             steps {
                 withCredentials(projectVcsCredentials) {
                     script {
-                        def status = sh returnStatus: true, script: '''
-                        #!/usr/bin/env bash
+                        catchError {
+                            def status = sh returnStatus: true, script: '''
+                            #!/usr/bin/env bash
 
-                        ORT_OPTIONS="$LOG_LEVEL -P ort.scanner.skipConcluded=$SKIP_CONCLUDED"
+                            ORT_OPTIONS="$LOG_LEVEL -P ort.scanner.skipConcluded=$SKIP_CONCLUDED"
 
-                        if [ "$USE_CLEARLY_DEFINED_SCAN_STORAGE" = "true" ]; then
-                            # Configure the default local file storage explicitly to be able to refer to it.
-                            ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storages.localFiles.backend.localFileStorage.directory=$HOME/.ort/scanner/results"
+                            if [ "$USE_CLEARLY_DEFINED_SCAN_STORAGE" = "true" ]; then
+                                # Configure the default local file storage explicitly to be able to refer to it.
+                                ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storages.localFiles.backend.localFileStorage.directory=$HOME/.ort/scanner/results"
 
-                            # Configure the ClearlyDefined remote storage.
-                            ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storages.clearlyDefined.serverUrl=https://api.clearlydefined.io"
+                                # Configure the ClearlyDefined remote storage.
+                                ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storages.clearlyDefined.serverUrl=https://api.clearlydefined.io"
 
-                            # Take both storages into use.
-                            ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storageReaders=localFiles,clearlyDefined \
-                                -P ort.scanner.storageWriters=localFiles"
-                        fi
+                                # Take both storages into use.
+                                ORT_OPTIONS="$ORT_OPTIONS -P ort.scanner.storageReaders=localFiles,clearlyDefined \
+                                    -P ort.scanner.storageWriters=localFiles"
+                            fi
 
-                        if [ "$STACKTRACE" = "true" ]; then
-                            ORT_OPTIONS="$ORT_OPTIONS --stacktrace"
-                        fi
+                            if [ "$STACKTRACE" = "true" ]; then
+                                ORT_OPTIONS="$ORT_OPTIONS --stacktrace"
+                            fi
 
-                        PACKAGE_TYPES=(project package)
+                            PACKAGE_TYPES=(project package)
 
-                        if [ "$PROJECT_SCANNER" = "<NONE>" ]; then
-                            PACKAGE_TYPES=(${PACKAGE_TYPES[@]/project})
-                        else
-                            PROJECT_SCANNERS_OPTION="--project-scanners $PROJECT_SCANNER"
-                        fi
+                            if [ "$PROJECT_SCANNER" = "<NONE>" ]; then
+                                PACKAGE_TYPES=(${PACKAGE_TYPES[@]/project})
+                            else
+                                PROJECT_SCANNERS_OPTION="--project-scanners $PROJECT_SCANNER"
+                            fi
 
-                        if [ "$PACKAGE_SCANNER" = "<NONE>" ]; then
-                            PACKAGE_TYPES=(${PACKAGE_TYPES[@]/package})
-                        else
-                            SCANNERS_OPTION="--scanners $PACKAGE_SCANNER"
-                        fi
+                            if [ "$PACKAGE_SCANNER" = "<NONE>" ]; then
+                                PACKAGE_TYPES=(${PACKAGE_TYPES[@]/package})
+                            else
+                                SCANNERS_OPTION="--scanners $PACKAGE_SCANNER"
+                            fi
 
-                        /opt/ort/bin/ort $ORT_OPTIONS scan --help
+                            /opt/ort/bin/ort $ORT_OPTIONS scan --help
 
-                        PACKAGE_TYPES_OPTION=${PACKAGE_TYPES[@]}
-                        if [ -n "$PACKAGE_TYPES_OPTION" ]; then
-                            PACKAGE_TYPES_OPTION=${PACKAGE_TYPES_OPTION// /,}
-                            PACKAGE_TYPES_OPTION="--package-types $PACKAGE_TYPES_OPTION"
+                            PACKAGE_TYPES_OPTION=${PACKAGE_TYPES[@]}
+                            if [ -n "$PACKAGE_TYPES_OPTION" ]; then
+                                PACKAGE_TYPES_OPTION=${PACKAGE_TYPES_OPTION// /,}
+                                PACKAGE_TYPES_OPTION="--package-types $PACKAGE_TYPES_OPTION"
 
-                            echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
+                                echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
-                            /opt/ort/bin/ort $ORT_OPTIONS config --show-active
+                                /opt/ort/bin/ort $ORT_OPTIONS config --show-active
 
-                            /opt/ort/bin/ort $ORT_OPTIONS scan \
-                                -i out/results/current-result.yml \
-                                -o out/results/scanner \
-                                $PACKAGE_TYPES_OPTION \
-                                $PROJECT_SCANNERS_OPTION \
-                                $SCANNERS_OPTION
+                                /opt/ort/bin/ort $ORT_OPTIONS scan \
+                                    -i out/results/current-result.yml \
+                                    -o out/results/scanner \
+                                    $PACKAGE_TYPES_OPTION \
+                                    $PROJECT_SCANNERS_OPTION \
+                                    $SCANNERS_OPTION
 
-                            rm -f $HOME/.netrc
+                                rm -f $HOME/.netrc
 
-                        fi
-                        '''.stripIndent().trim()
+                            fi
+                            '''.stripIndent().trim()
 
-                        switch (status) {
-                            case 0:
-                                if (!fileExists('out/results/scanner/scan-result.yml')) {
-                                    print("No scanner issues found.")
-                                    sh '''
-                                        mkdir -p out/results/scanner
-                                        cp out/results/current-result.yml out/results/scanner/scan-result.yml
-                                    '''.stripIndent().trim()
-                                    Utils.markStageSkippedForConditional('Run ORT scanner')
-                                }
-                                break
+                            switch (status) {
+                                case 0:
+                                    if (!fileExists('out/results/scanner/scan-result.yml')) {
+                                        print("No scanner issues found.")
+                                        sh '''
+                                            mkdir -p out/results/scanner
+                                            cp out/results/current-result.yml out/results/scanner/scan-result.yml
+                                        '''.stripIndent().trim()
+                                    }
+                                    break
 
-                            default:
-                                echo "error."
-                                error("Error executing the scanner (exit code $status).")
-                                break
-                        }
+                                default:
+                                    echo "error."
+                                    error("Error executing the scanner (exit code $status).")
+                                    currentBuild.result = 'FAILURE' // Set build status to failed
+                                    break
+                            }
                     }
 
                     sh 'ln -frs out/results/scanner/scan-result.yml out/results/current-result.yml'
+                    }
                 }
             }
 
