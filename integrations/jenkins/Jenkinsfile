@@ -561,15 +561,21 @@ pipeline {
                                 if (!fileExists('out/results/scanner/scan-result.yml')) {
                                     print("No scanner issues found.")
                                     sh '''
-                                        mkdir -p out/results/scanner
-                                        cp out/results/current-result.yml out/results/scanner/scan-result.yml
+                                    mkdir -p out/results/scanner
+                                    cp out/results/current-result.yml out/results/scanner/scan-result.yml
                                     '''.stripIndent().trim()
+
                                     Utils.markStageSkippedForConditional('Run ORT scanner')
                                 }
                                 break
 
+                            case { it >= ORT_FAILURE_STATUS_CODE }:
+                                print("unstable.")
+                                error("Scanner issues found (exit code $status).")
+                                break
+
                             default:
-                                echo "error."
+                                print("error.")
                                 error("Error executing the scanner (exit code $status).")
                                 break
                         }
