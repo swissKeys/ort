@@ -571,7 +571,7 @@ pipeline {
 
                             case { it >= ORT_FAILURE_STATUS_CODE }:
                                 print("unstable.")
-                                error("Scanner issues found (exit code $status).")
+                                unstable("Scanner issues found (exit code $status).")
                                 break
 
                             default:
