@@ -298,7 +298,7 @@ pipeline {
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
                     rm -fr "$PROJECT_DIR"
-                    cp /var/lib/jenkins/workspace/XRiSM $PROJECT_DIR/source
+                    cp -r $PROJECT_DIR/XRiSM $PROJECT_DIR/source
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
