@@ -298,7 +298,14 @@ pipeline {
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
                     rm -fr "$PROJECT_DIR"
-                    cp -r $HOME/XRiSM" $PROJECT_DIR/source
+
+                    cd "$HOME"
+
+                    ls
+
+                    cd .. 
+                    
+                    cp -r "$HOME/XRiSM" "$PROJECT_DIR/source"
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
