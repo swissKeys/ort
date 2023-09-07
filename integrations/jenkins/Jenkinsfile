@@ -297,8 +297,6 @@ pipeline {
                     fi
 
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-
-                    mkdir "$PROJECT_DIR/source"
                     
                     cp -r "$HOME_2/XRiSM" "$PROJECT_DIR/source"
 
