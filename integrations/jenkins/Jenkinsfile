@@ -300,7 +300,7 @@ pipeline {
 
                     rm -fr "$PROJECT_DIR"
 
-                    cd "$HOME_2"
+                    mkdir "$PROJECT_DIR/source"
                     
                     cp -r "$HOME_2/XRiSM" "$PROJECT_DIR/source"
 
