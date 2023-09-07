@@ -278,6 +278,7 @@ pipeline {
 
             environment {
                 HOME = "${env.WORKSPACE}@tmp"
+                HOME_2 = "${env.WORKSPACE}"
                 PROJECT_DIR = "${env.HOME}/project"
             }
 
@@ -299,13 +300,9 @@ pipeline {
 
                     rm -fr "$PROJECT_DIR"
 
-                    cd "$HOME"
-
-                    ls
-
-                    cd .. 
+                    cd "$HOME_2"
                     
-                    cp -r "$HOME/XRiSM" "$PROJECT_DIR/source"
+                    cp -r "$HOME_2/XRiSM" "$PROJECT_DIR/source"
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
