@@ -425,7 +425,7 @@ pipeline {
                         ORT_OPTIONS="$ORT_OPTIONS --stacktrace"
                     fi
 
-                    ORT_OPTIONS="$ORT_OPTIONS -P ort.analyzer.allowDynamicVersions=true"
+                    ORT_OPTIONS="$ORT_OPTIONS -P ort.analyzer.allowDynamicVersions=false"
 
                     /opt/ort/bin/set_gradle_proxy.sh
 
