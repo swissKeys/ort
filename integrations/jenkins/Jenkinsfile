@@ -283,7 +283,6 @@ pipeline {
             }
 
             steps {
-                withCredentials(projectVcsCredentials) {
                     sh '''
                     /opt/ort/bin/ort config --show-active
                     ORT_OPTIONS="$LOG_LEVEL"
@@ -292,19 +291,12 @@ pipeline {
                         ORT_OPTIONS="$ORT_OPTIONS --stacktrace"
                     fi
 
-                    if [ -n "$PROJECT_VCS_REVISION" ]; then
-                        VCS_REVISION_OPTION="--vcs-revision $PROJECT_VCS_REVISION"
-                    fi
-
-                    echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-
                     mkdir -p "$PROJECT_DIR/source"
 
                     cp -r "$HOME_2/XRiSM" "$PROJECT_DIR/source"
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
-                }
             }
         }
 
@@ -413,6 +405,7 @@ pipeline {
             environment {
                 HOME = "${env.WORKSPACE}@tmp"
                 PROJECT_DIR = "${env.HOME}/project"
+                ANALYZER_DIR = "${PROJECT_DIR}/source/out/results/analyzer"
             }
 
             steps {
@@ -436,8 +429,9 @@ pipeline {
 
                     /opt/ort/bin/set_gradle_proxy.sh
 
-                    rm -fr out/results
-                    /opt/ort/bin/ort $ORT_OPTIONS analyze -i "$PROJECT_DIR/source" -o out/results/analyzer
+                    mkdir -p "${ANALYZER_DIR}"
+                    
+                    /opt/ort/bin/ort $ORT_OPTIONS analyze -i "$PROJECT_DIR/source" -o "ANALYZER_DIR"
                     '''.stripIndent().trim()
 
                     if (status >= ORT_FAILURE_STATUS_CODE) unstable('Analyzer issues found.')
