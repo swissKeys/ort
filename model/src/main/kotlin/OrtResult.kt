@@ -215,6 +215,15 @@ data class OrtResult(
     fun getFilePathRelativeToAnalyzerRoot(project: Project, path: String): String {
         val vcsPath = relativeProjectVcsPath.getValue(project.id)
 
+        println("$vcsPath")
+        println("${project.vcsProcessed}")
+        println("${project.id.toCoordinates()}")
+        println("$repository")
+        
+        requireNotNull(vcsPath) {
+            "The ${project.vcsProcessed} of project '${project.id.toCoordinates()}' cannot be found in $repository."
+        }
+
         return buildString {
             if (vcsPath.isNotEmpty()) {
                 append(vcsPath)
