@@ -478,8 +478,6 @@ FROM components AS run
 COPY --from=ort --chown=$USER:$USER /opt/ort /opt/ort
 ENV PATH=$PATH:/opt/ort/bin
 
-RUN cargo install askalono-cli
-
 USER $USER
 WORKDIR $HOME
 
