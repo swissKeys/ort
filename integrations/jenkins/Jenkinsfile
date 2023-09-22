@@ -83,9 +83,10 @@ pipeline {
         )
 
         credentials(
-            name: 'ORT_CONFIG_VCS_CREDENTIALS',
+            name: 'PROJECT_VCS_CREDENTIALS',
             description: 'Optional Jenkins credentials to use for the VCS checkout.',
-            defaultValue: ''
+            defaultValue: '',
+            credentialType: 'SSH Username with private key'
         )
 
         choice(
@@ -225,9 +226,8 @@ pipeline {
             steps {
                 script {
                     if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += usernamePassword(credentialsId: params.PROJECT_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
+                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, keyFileVariable: 'SSH_KEY_FILE')
                     }
-
                     if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
                         ortConfigVcsCredentials += usernamePassword(credentialsId: params.ORT_CONFIG_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
                     }
