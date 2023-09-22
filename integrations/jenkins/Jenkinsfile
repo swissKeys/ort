@@ -83,7 +83,7 @@ pipeline {
         )
 
         credentials(
-            name: 'PROJECT_VCS_CREDENTIALS',
+            name: 'ORT_CONFIG_VCS_CREDENTIALS',
             description: 'Optional Jenkins credentials to use for the VCS checkout.',
             defaultValue: ''
         )
