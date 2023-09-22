@@ -85,8 +85,7 @@ pipeline {
         credentials(
             name: 'PROJECT_VCS_CREDENTIALS',
             description: 'Optional Jenkins credentials to use for the VCS checkout.',
-            defaultValue: '',
-            credentialType: 'SSH Username with private key'
+            defaultValue: ''
         )
 
         choice(
