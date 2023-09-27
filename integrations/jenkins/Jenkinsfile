@@ -225,7 +225,7 @@ pipeline {
             steps {
                 script {
                     if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += string(credentialsId: params.PROJECT_VCS_CREDENTIALS, variable: 'TOKEN')
+                        projectVcsCredentials += usernamePassword(credentialsId: params.PROJECT_VCS_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'TOKEN')
                     }
 
                     if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
