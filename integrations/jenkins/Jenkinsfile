@@ -224,6 +224,14 @@ pipeline {
 
             steps {
                 script {
+                    if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
+                        projectVcsCredentials += usernamePassword(credentialsId: params.PROJECT_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
+                    }
+
+                    if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
+                        ortConfigVcsCredentials += usernamePassword(credentialsId: params.ORT_CONFIG_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
+                    }
+
                     ortVersion = env.GIT_COMMIT.take(10)
                 }
             }
@@ -290,12 +298,11 @@ pipeline {
                     echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
 
                     rm -fr "$PROJECT_DIR"
-                    git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git
                     /opt/ort/bin/ort $ORT_OPTIONS download --project-url $PROJECT_VCS_URL $VCS_REVISION_OPTION --output-dir "$PROJECT_DIR/source"
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
-
+                }
             }
         }
 
