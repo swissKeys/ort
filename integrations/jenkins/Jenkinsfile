@@ -282,7 +282,6 @@ pipeline {
             }
 
             steps {
-                withCredentials(projectVcsCredentials) {
                     sh '''
                     /opt/ort/bin/ort config --show-active
                     ORT_OPTIONS="$LOG_LEVEL"
@@ -303,7 +302,6 @@ pipeline {
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
-                }
             }
         }
 
