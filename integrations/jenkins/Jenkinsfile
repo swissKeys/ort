@@ -267,15 +267,6 @@ pipeline {
             }
         }
 
-        stage('Debug SSH Environment') {
-            steps {
-                script {
-                    echo "SSH_AUTH_SOCK: ${env.SSH_AUTH_SOCK}"
-                    echo "SSH_AGENT_PID: ${env.SSH_AGENT_PID}"
-                }
-            }
-        }
-
         stage('Clone project') {
             agent {
                 dockerfile {
