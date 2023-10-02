@@ -282,10 +282,12 @@ pipeline {
             }
 
             steps {
+                script {
                     def sshCredential = credentials('PROJECT_VCS_CREDENTIALS')
                     sshagent(credentials: [sshCredential]) {
                         sh "git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git"
                     }
+                }
             }
         }
 
