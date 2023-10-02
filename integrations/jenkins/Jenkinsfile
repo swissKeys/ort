@@ -224,14 +224,6 @@ pipeline {
 
             steps {
                 script {
-                    if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += usernamePassword(credentialsId: params.PROJECT_VCS_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'TOKEN')
-                    }
-
-                    if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
-                        ortConfigVcsCredentials += usernamePassword(credentialsId: params.ORT_CONFIG_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
-                    }
-
                     ortVersion = env.GIT_COMMIT.take(10)
                 }
             }
@@ -282,7 +274,6 @@ pipeline {
             }
 
             steps {
-                withCredentials(projectVcsCredentials) {
                     sh '''
                     /opt/ort/bin/ort config --show-active
                     ORT_OPTIONS="$LOG_LEVEL"
@@ -302,7 +293,6 @@ pipeline {
 
                     rm -f $HOME/.netrc
                     '''.stripIndent().trim()
-                }
             }
         }
 
