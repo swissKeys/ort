@@ -282,26 +282,10 @@ pipeline {
             }
 
             steps {
-                    sh '''
-                    /opt/ort/bin/ort config --show-active
-                    ORT_OPTIONS="$LOG_LEVEL"
-
-                    if [ "$STACKTRACE" = "true" ]; then
-                        ORT_OPTIONS="$ORT_OPTIONS --stacktrace"
-                    fi
-
-                    if [ -n "$PROJECT_VCS_REVISION" ]; then
-                        VCS_REVISION_OPTION="--vcs-revision $PROJECT_VCS_REVISION"
-                    fi
-
-                    echo "default login $LOGIN password $PASSWORD" > $HOME/.netrc
-
-                    rm -fr "$PROJECT_DIR"
-                    git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git
-                    /opt/ort/bin/ort $ORT_OPTIONS download --project-url $PROJECT_VCS_URL $VCS_REVISION_OPTION --output-dir "$PROJECT_DIR/source"
-
-                    rm -f $HOME/.netrc
-                    '''.stripIndent().trim()
+                    def sshCredential = credentials('PROJECT_VCS_CREDENTIALS')
+                    sshagent(credentials: [sshCredential]) {
+                        sh "git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git"
+                    }
             }
         }
 
