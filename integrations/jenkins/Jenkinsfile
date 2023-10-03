@@ -225,7 +225,7 @@ pipeline {
             steps {
                 script {
                     if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, keyFileVariable: 'SSH_PRIVATE_KEY')
+                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, , keyFileVariable: 'SSH_PRIVATE_KEY')
                     }
 
             
@@ -283,7 +283,7 @@ pipeline {
             }
 
             steps {
-                withCredentials(projectVcsCredentials) {
+                sshagent(credentials: [params.PROJECT_VCS_CREDENTIALS]) {
                     sh '''
                         git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git
                     '''
