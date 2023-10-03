@@ -225,7 +225,7 @@ pipeline {
             steps {
                 script {
                     if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS)
+                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, keyFileVariable: 'SSH_PRIVATE_KEY')
                     }
 
             
