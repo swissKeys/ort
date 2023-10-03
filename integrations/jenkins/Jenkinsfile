@@ -225,7 +225,7 @@ pipeline {
             steps {
                 script {
                     if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += usernamePassword(credentialsId: params.PROJECT_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
+                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, keyFileVariable: 'SSH_KEY_FILE')
                     }
 
                     if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
@@ -288,7 +288,7 @@ pipeline {
                     echo "PROJECT_VCS_CREDENTIALS: ${PROJECT_VCS_CREDENTIALS}"
                 }
 
-                withCredentials([sshUserPrivateKey(credentialsId: "${PROJECT_VCS_CREDENTIALS}")]) {
+                withCredentials([sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS)]) {
                     sh "git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git"
                 }
             }
