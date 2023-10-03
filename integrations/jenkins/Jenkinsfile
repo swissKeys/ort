@@ -224,9 +224,6 @@ pipeline {
 
             steps {
                 script {
-                    if (!params.PROJECT_VCS_CREDENTIALS.allWhitespace) {
-                        projectVcsCredentials += sshUserPrivateKey(credentialsId: params.PROJECT_VCS_CREDENTIALS, keyFileVariable: 'SSH_KEY_FILE')
-                    }
 
                     if (!params.ORT_CONFIG_VCS_CREDENTIALS.allWhitespace) {
                         ortConfigVcsCredentials += usernamePassword(credentialsId: params.ORT_CONFIG_VCS_CREDENTIALS, usernameVariable: 'LOGIN', passwordVariable: 'PASSWORD')
