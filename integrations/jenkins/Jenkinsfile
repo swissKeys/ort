@@ -283,6 +283,11 @@ pipeline {
             }
 
             steps {
+                script {
+                    echo "DOCKER_BUILD_ARGS: ${DOCKER_BUILD_ARGS}"
+                    echo "DOCKER_RUN_ARGS: ${DOCKER_RUN_ARGS}"
+                    echo "PROJECT_VCS_CREDENTIALS: ${PROJECT_VCS_CREDENTIALS}"
+                }
                 withCredentials([sshUserPrivateKey(credentialsId: "${PROJECT_VCS_CREDENTIALS}")]) {
                     sh "git clone ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git"
                 }
