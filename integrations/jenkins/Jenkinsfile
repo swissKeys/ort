@@ -281,7 +281,7 @@ pipeline {
             steps {
                 sshagent(credentials: [params.PROJECT_VCS_CREDENTIALS]) {
                     sh '''
-                        git clone git@s2e2.cosmos.esa.int:7998/scispa/gusto.git
+                        git ssh://git@s2e2.cosmos.esa.int:7998/scispa/gusto.git
                     '''
                 }
             }
