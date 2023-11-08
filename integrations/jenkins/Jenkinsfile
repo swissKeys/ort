@@ -216,6 +216,11 @@ pipeline {
             description: 'Run the reporter tool.',
             defaultValue: true
         )
+        string(
+            name: 'E-Mail report to',
+            description: 'Add e-mail adress for report send out',
+            defaultValue: ''
+        )
     }
 
     stages {
