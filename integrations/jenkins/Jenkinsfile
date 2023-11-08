@@ -217,7 +217,7 @@ pipeline {
             defaultValue: true
         )
         string(
-            name: 'E-Mail report to',
+            name: 'MAIL_REPORT',
             description: 'Add e-mail adress for report send out',
             defaultValue: ''
         )
